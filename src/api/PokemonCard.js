@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import styled from 'styled-components';
 
-import spinner from './spinner.gif';
+import spinner from '../components/spinner.gif';
 
 const Sprite = styled.img`
   width: 5em;
@@ -12,13 +12,30 @@ const Sprite = styled.img`
 `;
 
 const Card = styled.div`
-  background-color: grey;
-  opacity: 0.5;
+  opacity: 0.95;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  &:hover {
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  }
+  -moz-user-select: none;
+  -website-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -o-user-select: none;
 `;
 
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: black;
+
+  &:focus,
+  &:hover,
+  &:visited,
+  &:link,
+  &:active {
+    text-decoration: none;
+  }
 `;
 
 export default class PokemonCard extends Component {
@@ -34,7 +51,7 @@ export default class PokemonCard extends Component {
     const { name, url } = this.props;
 
     const pokemonIndex = url.split('/')[url.split('/').length - 2];
-    // gettint the pokemons imageUrl from an git account 
+    //const imageUrl = `./sprites/pokemon/${pokemonIndex}.png`;
     const imageUrl = `https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/${pokemonIndex}.png?raw=true`;
 
     this.setState({ name, imageUrl, pokemonIndex });
@@ -67,6 +84,13 @@ export default class PokemonCard extends Component {
                   : { display: 'block' }
               }
             />
+            {this.state.toManyRequests ? (
+              <h6 className="mx-auto">
+                <span className="badge badge-danger mt-2">
+                  To Many Requests
+                </span>
+              </h6>
+            ) : null}
             <div className="card-body mx-auto">
               <h6 className="card-title">
                 {this.state.name
